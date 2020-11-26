@@ -10,11 +10,19 @@ Assets/*
 !Assets/Plugins
 !Assets/Plugins.meta
 Assets/Plugins/*
+!Assets/ThirdParty
+!Assets/ThirdParty.meta
+Assets/ThirdParty/*
 
 # ========================================= #
 #  Third party assets (Non ignored assets)
 # ========================================= #
-
+!Assets/ThirdParty/VRM
+!Assets/ThirdParty/VRM.meta
+!Assets/ThirdParty/VRMShaders
+!Assets/ThirdParty/VRMShaders.meta
+!Assets/ThirdParty/MeshUtility
+!Assets/ThirdParty/MeshUtility.meta
 
 # ================================================================ #
 #  Project specific assets and my own assets (Non ignored assets)
