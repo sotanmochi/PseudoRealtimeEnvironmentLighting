@@ -19,6 +19,10 @@ Assets/ThirdParty/*
 # ========================================= #
 !Assets/ThirdParty/Toon
 !Assets/ThirdParty/Toon.meta
+!Assets/ThirdParty/UnityChan.SpringBone
+!Assets/ThirdParty/UnityChan.SpringBone.meta
+!Assets/ThirdParty/UnityChanUSS
+!Assets/ThirdParty/UnityChanUSS.meta
 
 !Assets/ThirdParty/VRM
 !Assets/ThirdParty/VRM.meta

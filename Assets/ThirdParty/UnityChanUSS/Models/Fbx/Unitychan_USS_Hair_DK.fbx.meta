@@ -1,0 +1,205 @@
+fileFormatVersion: 2
+guid: 9d2eec2171008694cac1ae01888df260
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: obj1
+    100004: obj3
+    100006: obj4
+    100008: obj6
+    100010: DB_Hair_Back_A_01
+    100012: DB_Hair_Back_A_02
+    100014: DB_Hair_Back_A_03
+    100016: DB_Hair_Back_B_01
+    100018: DB_Hair_Back_B_02
+    100020: DB_Hair_Back_B_03
+    100022: DB_Hair_Back_C_01
+    100024: DB_Hair_Back_C_02
+    100026: DB_Hair_Back_C_03
+    100028: DB_Hair_Back_D_01
+    100030: DB_Hair_Back_D_02
+    100032: DB_Hair_Back_D_03
+    100034: DB_Hair_Back_E_01
+    100036: DB_Hair_Back_E_02
+    100038: DB_Hair_Back_E_03
+    100040: DB_Hair_Back_F_01
+    100042: DB_Hair_Back_F_02
+    100044: DB_Hair_Back_F_03
+    100046: DB_Hair_Back_Root
+    100048: DB_Hair_Front_01
+    100050: DB_Hair_Front_02
+    100052: DB_Hair_Front_03
+    100054: DB_Hair_Front_04
+    100056: DB_Hair_Side_A_01
+    100058: DB_Hair_Side_A_02
+    100060: DB_Hair_Side_A_03
+    100062: DB_Hair_Side_A_04
+    100064: DB_Hair_Side_B_01
+    100066: DB_Hair_Side_B_02
+    100068: DB_Hair_Side_B_03
+    100070: DB_Hair_Side_C_01
+    100072: DB_Hair_Side_C_02
+    100074: DB_Hair_Side_C_03
+    100076: DB_Hair_Side_D_01
+    100078: DB_Hair_Side_D_02
+    100080: DB_Hair_Side_D_03
+    100082: DB_Hair_Side_E_01
+    100084: DB_Hair_Side_E_02
+    100086: hair_BK
+    100088: Hair_BK_Root
+    100090: hair_DK
+    100092: Hair_DK_Root
+    400000: //RootNode
+    400002: obj1
+    400004: obj3
+    400006: obj4
+    400008: obj6
+    400010: DB_Hair_Back_A_01
+    400012: DB_Hair_Back_A_02
+    400014: DB_Hair_Back_A_03
+    400016: DB_Hair_Back_B_01
+    400018: DB_Hair_Back_B_02
+    400020: DB_Hair_Back_B_03
+    400022: DB_Hair_Back_C_01
+    400024: DB_Hair_Back_C_02
+    400026: DB_Hair_Back_C_03
+    400028: DB_Hair_Back_D_01
+    400030: DB_Hair_Back_D_02
+    400032: DB_Hair_Back_D_03
+    400034: DB_Hair_Back_E_01
+    400036: DB_Hair_Back_E_02
+    400038: DB_Hair_Back_E_03
+    400040: DB_Hair_Back_F_01
+    400042: DB_Hair_Back_F_02
+    400044: DB_Hair_Back_F_03
+    400046: DB_Hair_Back_Root
+    400048: DB_Hair_Front_01
+    400050: DB_Hair_Front_02
+    400052: DB_Hair_Front_03
+    400054: DB_Hair_Front_04
+    400056: DB_Hair_Side_A_01
+    400058: DB_Hair_Side_A_02
+    400060: DB_Hair_Side_A_03
+    400062: DB_Hair_Side_A_04
+    400064: DB_Hair_Side_B_01
+    400066: DB_Hair_Side_B_02
+    400068: DB_Hair_Side_B_03
+    400070: DB_Hair_Side_C_01
+    400072: DB_Hair_Side_C_02
+    400074: DB_Hair_Side_C_03
+    400076: DB_Hair_Side_D_01
+    400078: DB_Hair_Side_D_02
+    400080: DB_Hair_Side_D_03
+    400082: DB_Hair_Side_E_01
+    400084: DB_Hair_Side_E_02
+    400086: hair_BK
+    400088: Hair_BK_Root
+    400090: hair_DK
+    400092: Hair_DK_Root
+    2100000: mat2
+    2100002: LWUC_Hair
+    2100004: Head
+    2100006: LWUC_Hair_BK
+    2300000: obj1
+    2300002: obj3
+    2300004: obj4
+    2300006: obj6
+    2300008: //RootNode
+    2300010: hair_BK
+    3300000: obj1
+    3300002: obj3
+    3300004: obj4
+    3300006: obj6
+    3300008: //RootNode
+    3300010: hair_BK
+    4300000: obj1
+    4300002: obj6
+    4300004: obj3
+    4300006: obj4
+    4300008: hair_BK
+    4300010: hair_DK
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: hair_BK
+    13700002: hair_DK
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
