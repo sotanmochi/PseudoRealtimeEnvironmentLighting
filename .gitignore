@@ -17,6 +17,9 @@ Assets/ThirdParty/*
 # ========================================= #
 #  Third party assets (Non ignored assets)
 # ========================================= #
+!Assets/ThirdParty/Toon
+!Assets/ThirdParty/Toon.meta
+
 !Assets/ThirdParty/VRM
 !Assets/ThirdParty/VRM.meta
 !Assets/ThirdParty/VRMShaders
