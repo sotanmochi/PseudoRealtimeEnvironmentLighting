@@ -36,7 +36,8 @@ Assets/ThirdParty/*
 # ================================================================ #
 #  Project specific assets and my own assets (Non ignored assets)
 # ================================================================ #
-
+!Assets/PseudoRealtimeEnvironmentLighting
+!Assets/PseudoRealtimeEnvironmentLighting.meta
 
 #
 # This .gitignore file should be placed at the root of your Unity project directory
