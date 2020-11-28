@@ -52,10 +52,17 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
             })
             .AddTo(this);
 
-            _LightingView.EmissionIntensity
+            _LightingView.EmissiveFloorIntensity
             .Subscribe(value => 
             {
-                _LightingManager.SetEmissionIntensity(value);
+                _LightingManager.SetEmissiveFloorIntensity(value);
+            })
+            .AddTo(this);
+
+            _LightingView.EmissiveQuadIntensity
+            .Subscribe(value => 
+            {
+                _LightingManager.SetEmissiveQuadIntensity(value);
             })
             .AddTo(this);
         }

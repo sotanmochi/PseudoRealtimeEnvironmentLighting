@@ -12,13 +12,15 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
         [SerializeField] Slider _Slider_Smoothness;
         [SerializeField] Toggle _Toggle_EnableDirectionalLight;
         [SerializeField] Slider _Slider_DirectionalLightIntensity;
-        [SerializeField] Slider _Slider_EmissionIntensity;
+        [SerializeField] Slider _Slider_EmissiveFloorIntensity;
+        [SerializeField] Slider _Slider_EmissiveQuadIntensity;
 
         [SerializeField] Text _Text_EnvironmentLightMaxIntensity;
         [SerializeField] Text _Text_Metallic;
         [SerializeField] Text _Text_Smoothness;
         [SerializeField] Text _Text_DirectionalLightIntensity;
-        [SerializeField] Text _Text_EmissionIntensity;
+        [SerializeField] Text _Text_EmissiveFloorIntensity;
+        [SerializeField] Text _Text_EmissiveQuadIntensity;
 
         public IReadOnlyReactiveProperty<bool> EnableEnvironmentLight => _EnableEnvironmentLight;
         public IReadOnlyReactiveProperty<float> EnvironmentLightMaxIntensity => _EnvironmentLightMaxIntensity;
@@ -26,7 +28,8 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
         public IReadOnlyReactiveProperty<float> Smoothness => _Smoothness;
         public IReadOnlyReactiveProperty<bool> EnableDirectionalLight => _EnableDirectionalLight;
         public IReadOnlyReactiveProperty<float> DirectionalLightIntensity => _DirectionalLightIntensity;
-        public IReadOnlyReactiveProperty<float> EmissionIntensity => _EmissionIntensity;
+        public IReadOnlyReactiveProperty<float> EmissiveFloorIntensity => _EmissiveFloorIntensity;
+        public IReadOnlyReactiveProperty<float> EmissiveQuadIntensity => _EmissiveQuadIntensity;
 
         private ReactiveProperty<bool> _EnableEnvironmentLight = new ReactiveProperty<bool>();
         private ReactiveProperty<float> _EnvironmentLightMaxIntensity = new ReactiveProperty<float>();
@@ -34,7 +37,8 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
         private ReactiveProperty<float> _Smoothness = new ReactiveProperty<float>();
         private ReactiveProperty<bool> _EnableDirectionalLight = new ReactiveProperty<bool>();
         private ReactiveProperty<float> _DirectionalLightIntensity = new ReactiveProperty<float>();
-        private ReactiveProperty<float> _EmissionIntensity = new ReactiveProperty<float>();
+        private ReactiveProperty<float> _EmissiveFloorIntensity = new ReactiveProperty<float>();
+        private ReactiveProperty<float> _EmissiveQuadIntensity = new ReactiveProperty<float>();
 
         void Awake()
         {
@@ -84,11 +88,19 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
             })
             .AddTo(this);
 
-            _Slider_EmissionIntensity.OnValueChangedAsObservable()
+            _Slider_EmissiveFloorIntensity.OnValueChangedAsObservable()
             .Subscribe(value => 
             {
-                _EmissionIntensity.Value = value;
-                _Text_EmissionIntensity.text = "Intensity : " + value.ToString("F2");
+                _EmissiveFloorIntensity.Value = value;
+                _Text_EmissiveFloorIntensity.text = "Floor Intensity : " + value.ToString("F2");
+            })
+            .AddTo(this);
+
+            _Slider_EmissiveQuadIntensity.OnValueChangedAsObservable()
+            .Subscribe(value => 
+            {
+                _EmissiveQuadIntensity.Value = value;
+                _Text_EmissiveQuadIntensity.text = "Back Intensity : " + value.ToString("F2");
             })
             .AddTo(this);
         }
@@ -121,11 +133,6 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
         public void SetDirectionalLightIntensity(float value)
         {
             _Slider_DirectionalLightIntensity.value = value;
-        }
-
-        public void SetEmissionIntensity(float value)
-        {
-            _Slider_EmissionIntensity.value = value;
         }
     }
 }

@@ -7,7 +7,8 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
     {
         [SerializeField] Light _DirectionalLight;
         [SerializeField] RealtimeEnvironmentLight _RealtimeEnvironmentLight;
-        [SerializeField] Material _EmissiveMaterial;
+        [SerializeField] Material _EmissiveFloorMaterial;
+        [SerializeField] Material _EmissiveQuadMaterial;
 
         private Color _EmissionBaseColor = new Color(1f, 1f, 1f);
 
@@ -42,10 +43,16 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
             _RealtimeEnvironmentLight.Smoothness = value;
         }
 
-        public void SetEmissionIntensity(float value)
+        public void SetEmissiveFloorIntensity(float value)
         {
             Color color = value * _EmissionBaseColor;
-            _EmissiveMaterial.SetColor("_EmissionColor", color);
+            _EmissiveFloorMaterial.SetColor("_EmissionColor", color);
+        }
+
+        public void SetEmissiveQuadIntensity(float value)
+        {
+            Color color = value * _EmissionBaseColor;
+            _EmissiveQuadMaterial.SetColor("_EmissionColor", color);
         }
     }
 }
