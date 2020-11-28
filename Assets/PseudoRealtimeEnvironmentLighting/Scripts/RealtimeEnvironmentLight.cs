@@ -4,10 +4,12 @@ namespace PseudoRealtimeEnvironmentLighting
 {
     public class RealtimeEnvironmentLight : MonoBehaviour
     {
+        public bool EnableEnvironmetLighting = true;
+
         public Camera CurrentActiveCamera;
         public Transform EnvironmentLightingTarget;
+        public float HeightOffset = 1.0f;
 
-        public bool EnableEnvironmetLighting = true;
         public float IntensityLevel = 1.0f;
         public float MaxIntensity = 0.4f;
 
@@ -21,10 +23,17 @@ namespace PseudoRealtimeEnvironmentLighting
 
         void Update()
         {
-            this.transform.position = EnvironmentLightingTarget.position;
+            UpdatePosition();
             _MatCapRenderingCameraParent.rotation = CurrentActiveCamera.transform.rotation;
             UpdateIntensity();
             UpdateMaterial();
+        }
+
+        void UpdatePosition()
+        {
+            Vector3 position = EnvironmentLightingTarget.position;
+            position.y += HeightOffset;
+            this.transform.position = position;
         }
 
         void UpdateIntensity()

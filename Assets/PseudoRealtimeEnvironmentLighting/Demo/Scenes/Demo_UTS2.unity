@@ -794,6 +794,11 @@ PrefabInstance:
       propertyPath: EnvironmentLightingTarget
       value: 
       objectReference: {fileID: 2070381458}
+    - target: {fileID: 551178756763610758, guid: e9054d2dfe5055945a0e3066e334f354,
+        type: 3}
+      propertyPath: HeightOffset
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 551178756763610759, guid: e9054d2dfe5055945a0e3066e334f354,
         type: 3}
       propertyPath: m_LocalPosition.x
