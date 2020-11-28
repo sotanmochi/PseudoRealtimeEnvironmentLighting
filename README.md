@@ -1,6 +1,6 @@
 # Pseudo Real-time Environment Lighting using MatCap
 
-MatCapを用いた疑似リアルタイム環境照明
+MatCapを用いた疑似リアルタイム環境ライティング
 
 ## Tested Environment
 - Unity 2019.4.15f1
@@ -26,6 +26,9 @@ The following assets are included in this project.
 
 - [UnityChanSpringBone](https://github.com/unity3d-jp/UnityChanSpringBone)  
   Licensed under the MIT License. Copyright (c) 2018 Unity Technologies ApS.
+
+- [UniRx 7.1.0](https://github.com/neuecc/UniRx/releases/tag/7.1.0)  
+  Licensed under the MIT License. Copyright (c) 2018 Yoshifumi Kawai.
 
 ## License
 このプロジェクトは、サードパーティのアセットを除き、MIT Licenseでライセンスされています。  

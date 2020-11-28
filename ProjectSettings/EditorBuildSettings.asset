@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/PseudoRealtimeEnvironmentLighting/Demo/Scenes/Demo_UTS2.unity
+    guid: a9b6b46fdffaa7d4dac4dd979e6c4dd8
   m_configObjects: {}
