@@ -302,7 +302,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 311
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -731,6 +731,12 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: ab31639c81fde744ea5a20b2f4e5390e, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eca176cee594cff42b3253b7c8390601, type: 3}
+--- !u!4 &2070381458 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4193915428424076, guid: d03411367a2c05743b3faec8f1ed702b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1044687721}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &551178757380047747
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -743,6 +749,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: RealtimeEnvironmentLight
       objectReference: {fileID: 0}
+    - target: {fileID: 551178756763610758, guid: e9054d2dfe5055945a0e3066e334f354,
+        type: 3}
+      propertyPath: CurrentActiveCamera
+      value: 
+      objectReference: {fileID: 663631698}
+    - target: {fileID: 551178756763610758, guid: e9054d2dfe5055945a0e3066e334f354,
+        type: 3}
+      propertyPath: EnvironmentLightingTarget
+      value: 
+      objectReference: {fileID: 2070381458}
     - target: {fileID: 551178756763610759, guid: e9054d2dfe5055945a0e3066e334f354,
         type: 3}
       propertyPath: m_LocalPosition.x
