@@ -669,7 +669,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.4
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1000,7 +1000,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &385557447
 GameObject:
@@ -1919,6 +1919,18 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &883410696 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 551178756763610758, guid: e9054d2dfe5055945a0e3066e334f354,
+    type: 3}
+  m_PrefabInstance: {fileID: 551178757380047747}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 080b40b6008700f41906cd642794439f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &888832970
 GameObject:
   m_ObjectHideFlags: 0
@@ -1997,6 +2009,89 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 888832970}
   m_CullTransparentMesh: 0
+--- !u!1 &943180780
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 943180784}
+  - component: {fileID: 943180783}
+  - component: {fileID: 943180782}
+  - component: {fileID: 943180781}
+  m_Layer: 0
+  m_Name: LighingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &943180781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943180780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f43420935aeee340a33b774b5b36c9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Toggle_EnableEnvironmentLight: {fileID: 966611929}
+  _Slider_EnvironmentLightMaxIntensity: {fileID: 201691236}
+  _Slider_Metallic: {fileID: 1542653816}
+  _Slider_Smoothness: {fileID: 2087265579}
+  _Toggle_EnableDirectionalLight: {fileID: 192631921}
+  _Slider_DirectionalLightIntensity: {fileID: 1113806819}
+  _Text_EnvironmentLightMaxIntensity: {fileID: 787934814}
+  _Text_Metallic: {fileID: 492684690}
+  _Text_Smoothness: {fileID: 1432784933}
+  _Text_DirectionalLightIntensity: {fileID: 325088815}
+--- !u!114 &943180782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943180780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed289cab593ad4648a91e41e13c79003, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _LightingView: {fileID: 943180781}
+  _LightingManager: {fileID: 943180783}
+--- !u!114 &943180783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943180780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0475ef60ef1243d42b6971f00e2ff09b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _DirectionalLight: {fileID: 1425054209}
+  _RealtimeEnvironmentLight: {fileID: 883410696}
+--- !u!4 &943180784
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943180780}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &943944156
 GameObject:
   m_ObjectHideFlags: 0
@@ -2967,7 +3062,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.6
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4790,7 +4885,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.6
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4961,7 +5056,7 @@ RectTransform:
   m_Children:
   - {fileID: 2093558741}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
