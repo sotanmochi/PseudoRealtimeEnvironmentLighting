@@ -51,6 +51,13 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
                 _LightingManager.SetDirectionalLightIntensity(value);
             })
             .AddTo(this);
+
+            _LightingView.EmissionIntensity
+            .Subscribe(value => 
+            {
+                _LightingManager.SetEmissionIntensity(value);
+            })
+            .AddTo(this);
         }
     }
 }

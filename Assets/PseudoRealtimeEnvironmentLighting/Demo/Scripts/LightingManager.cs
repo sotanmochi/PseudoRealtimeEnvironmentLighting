@@ -7,6 +7,9 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
     {
         [SerializeField] Light _DirectionalLight;
         [SerializeField] RealtimeEnvironmentLight _RealtimeEnvironmentLight;
+        [SerializeField] Material _EmissiveMaterial;
+
+        private Color _EmissionBaseColor = new Color(1f, 1f, 1f);
 
         public void SetEnableDirectionalLight(bool value)
         {
@@ -37,6 +40,12 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
         public void SetEnvironmentLightSmoothness(float value)
         {
             _RealtimeEnvironmentLight.Smoothness = value;
+        }
+
+        public void SetEmissionIntensity(float value)
+        {
+            Color color = value * _EmissionBaseColor;
+            _EmissiveMaterial.SetColor("_EmissionColor", color);
         }
     }
 }
