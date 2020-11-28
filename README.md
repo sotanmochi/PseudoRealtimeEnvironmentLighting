@@ -27,6 +27,9 @@ The following assets are included in this project.
 - [UnityChanSpringBone](https://github.com/unity3d-jp/UnityChanSpringBone)  
   Licensed under the MIT License. Copyright (c) 2018 Unity Technologies ApS.
 
+- [UniRx 7.1.0](https://github.com/neuecc/UniRx/releases/tag/7.1.0)  
+  Licensed under the MIT License. Copyright (c) 2018 Yoshifumi Kawai.
+
 ## License
 このプロジェクトは、サードパーティのアセットを除き、MIT Licenseでライセンスされています。  
 This project is licensed under the MIT License excluding third party assets.

@@ -33,6 +33,9 @@ Assets/ThirdParty/*
 !Assets/ThirdParty/MeshUtility
 !Assets/ThirdParty/MeshUtility.meta
 
+!Assets/ThirdParty/UniRx
+!Assets/ThirdParty/UniRx.meta
+
 # ================================================================ #
 #  Project specific assets and my own assets (Non ignored assets)
 # ================================================================ #
