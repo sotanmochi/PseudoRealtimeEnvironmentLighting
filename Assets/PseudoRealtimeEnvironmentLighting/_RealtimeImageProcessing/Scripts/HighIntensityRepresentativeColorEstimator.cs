@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿// Licensed under the MIT License. Copyright (c) 2020 Soichiro Sugimoto.
+
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UniRx;

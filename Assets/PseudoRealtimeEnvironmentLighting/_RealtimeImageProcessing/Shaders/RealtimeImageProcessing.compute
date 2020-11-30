@@ -1,4 +1,6 @@
-﻿#pragma kernel Grayscale
+﻿// Licensed under the MIT License. Copyright (c) 2020 Soichiro Sugimoto.
+
+#pragma kernel Grayscale
 #pragma kernel InitializeHistogram
 #pragma kernel Histogram
 #pragma kernel CopyHistogramBuffer
