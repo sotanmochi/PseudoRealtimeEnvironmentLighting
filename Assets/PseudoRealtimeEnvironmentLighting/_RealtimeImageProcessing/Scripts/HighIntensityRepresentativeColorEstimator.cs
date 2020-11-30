@@ -4,7 +4,7 @@ using UnityEngine.Rendering;
 
 namespace PseudoRealtimeEnvironmentLighting.Experimental
 {
-    public class RealtimeImageProcessing : MonoBehaviour
+    public class HighIntensityRepresentativeColorEstimator : MonoBehaviour
     {
         [SerializeField] ComputeShader ComputeShader;
         [SerializeField] Renderer InputImageObject;
