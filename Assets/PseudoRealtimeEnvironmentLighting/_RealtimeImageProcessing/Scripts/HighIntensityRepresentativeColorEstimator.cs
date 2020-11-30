@@ -1,19 +1,22 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UniRx;
 
 namespace PseudoRealtimeEnvironmentLighting.Experimental
 {
     public class HighIntensityRepresentativeColorEstimator : MonoBehaviour
     {
         [SerializeField] ComputeShader ComputeShader;
-        [SerializeField] Renderer InputImageObject;
-        [SerializeField] Renderer GrayscaleImageObject;
-        [SerializeField] Renderer VisualizeImageObject;
-        [SerializeField] Renderer CutLowOutputImageObject;
-        [SerializeField] Renderer AverageColorImageObject;
 
+        public IReadOnlyReactiveProperty<Color> AverageColor => _AverageColor;
+        public RenderTexture GrayscaleTexture => _GrayscaleTexture;
+        public RenderTexture VisualizationTex => _VisualizationTex;
+        public RenderTexture CutLowDstTexture => _CutLowDstTexture;
+
+        private bool _Initialized = false;
         private Texture _SrcTexture;
+        private ReactiveProperty<Color> _AverageColor;
         private RenderTexture _GrayscaleTexture;
         private RenderTexture _VisualizationTex;
         private RenderTexture _CutLowDstTexture;
@@ -50,19 +53,14 @@ namespace PseudoRealtimeEnvironmentLighting.Experimental
 
         private Queue<AsyncGPUReadbackRequest> _GPUReadbackRequests = new Queue<AsyncGPUReadbackRequest>();
 
-        void Start()
-        {
-            _SrcTexture = InputImageObject.material.mainTexture;
-
-            Initialize();
-
-            GrayscaleImageObject.material.mainTexture = _GrayscaleTexture;
-            VisualizeImageObject.material.mainTexture = _VisualizationTex;
-            CutLowOutputImageObject.material.mainTexture = _CutLowDstTexture;
-        }
-
         void Update()
         {
+            if (!_Initialized)
+            {
+                Debug.LogError("Color estimator has not initialized!!");
+                return;
+            }
+
             if (!SystemInfo.supportsComputeShaders)
             {
                 Debug.LogError("Compute Shader is not Support!!");
@@ -114,7 +112,8 @@ namespace PseudoRealtimeEnvironmentLighting.Experimental
                         averageColor.g = (byte)(g / pixelCount);
                         averageColor.b = (byte)(b / pixelCount);
 
-                        AverageColorImageObject.material.color = averageColor;
+                        // AverageColorImageObject.material.color = averageColor;
+                        _AverageColor.Value = averageColor;
 
                         _GPUReadbackRequests.Dequeue();
                     })
@@ -122,8 +121,12 @@ namespace PseudoRealtimeEnvironmentLighting.Experimental
             }
         }
 
-        void Initialize()
+        public void Initialize(Texture srcTexture)
         {
+            _AverageColor = new ReactiveProperty<Color>();
+
+            _SrcTexture = srcTexture;
+
             int width = _SrcTexture.width;
             int height = _SrcTexture.height;
 
@@ -167,6 +170,8 @@ namespace PseudoRealtimeEnvironmentLighting.Experimental
             _SeparationSumBuffer = new ComputeBuffer(1, sizeof(double));
             _SeparationAverage = new double[1];
             _SeparationAverageBuffer = new ComputeBuffer(1, sizeof(double));
+
+            _Initialized = true;
         }
 
         void Grayscale()
