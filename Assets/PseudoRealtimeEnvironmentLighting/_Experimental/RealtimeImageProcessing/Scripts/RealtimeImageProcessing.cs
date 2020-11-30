@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace PseudoRealtimeEnvironmentLighting.Experimental
 {
@@ -9,6 +11,7 @@ namespace PseudoRealtimeEnvironmentLighting.Experimental
         [SerializeField] Renderer GrayscaleImageObject;
         [SerializeField] Renderer VisualizeImageObject;
         [SerializeField] Renderer CutLowOutputImageObject;
+        [SerializeField] Renderer AverageColorImageObject;
 
         private Texture _SrcTexture;
         private RenderTexture _GrayscaleTexture;
@@ -45,6 +48,8 @@ namespace PseudoRealtimeEnvironmentLighting.Experimental
         private ComputeBuffer _SeparationSumBuffer;
         private ComputeBuffer _SeparationAverageBuffer;
 
+        private Queue<AsyncGPUReadbackRequest> _GPUReadbackRequests = new Queue<AsyncGPUReadbackRequest>();
+
         void Start()
         {
             _SrcTexture = InputImageObject.material.mainTexture;
@@ -75,6 +80,46 @@ namespace PseudoRealtimeEnvironmentLighting.Experimental
             CutLowIntensity(_SeparationMaxIndexBuffer);
 
             VisualizeHistogram(_SeparationMaxIndexBuffer);
+
+            if (_GPUReadbackRequests.Count < 1)
+            {
+                _GPUReadbackRequests.Enqueue(
+                    AsyncGPUReadback.Request(_CutLowDstTexture, 0, request => 
+                    {
+                        if (request.hasError)
+                        {
+                            Debug.Log("GPU readback error detected.");
+                            _GPUReadbackRequests.Dequeue();
+                            return;
+                        }
+
+                        var buffer = request.GetData<Color32>().ToArray();
+
+                        float pixelCount = 0;
+                        float r = 0.0f;
+                        float g = 0.0f;
+                        float b = 0.0f;
+                        foreach (Color32 color in buffer)
+                        {
+                            if (!(color.r == 0.0f && color.g == 0.0f && color.b == 0.0f))
+                            {
+                                pixelCount++;
+                                r += color.r;
+                                g += color.g;
+                                b += color.b;
+                            }
+                        }
+                        Color32 averageColor = new Color32(0, 0, 0, 1);
+                        averageColor.r = (byte)(r / pixelCount);
+                        averageColor.g = (byte)(g / pixelCount);
+                        averageColor.b = (byte)(b / pixelCount);
+
+                        AverageColorImageObject.material.color = averageColor;
+
+                        _GPUReadbackRequests.Dequeue();
+                    })
+                );
+            }
         }
 
         void Initialize()
