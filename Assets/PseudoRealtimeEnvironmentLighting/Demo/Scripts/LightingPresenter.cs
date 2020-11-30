@@ -26,6 +26,13 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
             })
             .AddTo(this);
 
+            _LightingView.EnableLightColorEstimator
+            .Subscribe(value => 
+            {
+                _LightingManager.SetEnableLightColorEstimator(value);
+            })
+            .AddTo(this);
+
             _LightingView.EnvironmentLightMaxIntensity
             .Subscribe(value => 
             {

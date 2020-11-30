@@ -34,6 +34,11 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
             });
         }
 
+        public void SetEnableLightColorEstimator(bool value)
+        {
+            EnableLightColorEstimator = value;
+        }
+
         public void SetEnableDirectionalLight(bool value)
         {
             _DirectionalLight.gameObject.SetActive(value);
