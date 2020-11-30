@@ -7,10 +7,37 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
     {
         [SerializeField] Light _DirectionalLight;
         [SerializeField] RealtimeEnvironmentLight _RealtimeEnvironmentLight;
+        [SerializeField] HighIntensityRepresentativeColorEstimator _LightColorEstimator;
+        [SerializeField] Texture _LightColorEstimationSource;
         [SerializeField] Material _EmissiveFloorMaterial;
         [SerializeField] Material _EmissiveQuadMaterial;
 
+        public bool EnableLightColorEstimator = true;
+
         private Color _EmissionBaseColor = new Color(1f, 1f, 1f);
+
+        public void Initialze()
+        {
+            _LightColorEstimator.Initialize(_LightColorEstimationSource);
+
+            _LightColorEstimator.AverageColor
+            .Subscribe(color => 
+            {
+                if (EnableLightColorEstimator)
+                {
+                    _DirectionalLight.color = color;
+                }
+                else
+                {
+                    _DirectionalLight.color = Color.white;
+                }
+            });
+        }
+
+        public void SetEnableLightColorEstimator(bool value)
+        {
+            EnableLightColorEstimator = value;
+        }
 
         public void SetEnableDirectionalLight(bool value)
         {

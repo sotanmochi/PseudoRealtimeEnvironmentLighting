@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿// Licensed under the MIT License. Copyright (c) 2020 Soichiro Sugimoto.
+
+using UnityEngine;
 
 namespace PseudoRealtimeEnvironmentLighting
 {

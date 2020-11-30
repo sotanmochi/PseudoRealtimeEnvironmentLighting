@@ -11,6 +11,7 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
         [SerializeField] Slider _Slider_Metallic;
         [SerializeField] Slider _Slider_Smoothness;
         [SerializeField] Toggle _Toggle_EnableDirectionalLight;
+        [SerializeField] Toggle _Toggle_EnableLightColorEstimator;
         [SerializeField] Slider _Slider_DirectionalLightIntensity;
         [SerializeField] Slider _Slider_EmissiveFloorIntensity;
         [SerializeField] Slider _Slider_EmissiveQuadIntensity;
@@ -27,6 +28,7 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
         public IReadOnlyReactiveProperty<float> Metallic => _Metallic;
         public IReadOnlyReactiveProperty<float> Smoothness => _Smoothness;
         public IReadOnlyReactiveProperty<bool> EnableDirectionalLight => _EnableDirectionalLight;
+        public IReadOnlyReactiveProperty<bool> EnableLightColorEstimator => _EnableLightColorEstimator;
         public IReadOnlyReactiveProperty<float> DirectionalLightIntensity => _DirectionalLightIntensity;
         public IReadOnlyReactiveProperty<float> EmissiveFloorIntensity => _EmissiveFloorIntensity;
         public IReadOnlyReactiveProperty<float> EmissiveQuadIntensity => _EmissiveQuadIntensity;
@@ -36,6 +38,7 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
         private ReactiveProperty<float> _Metallic = new ReactiveProperty<float>();
         private ReactiveProperty<float> _Smoothness = new ReactiveProperty<float>();
         private ReactiveProperty<bool> _EnableDirectionalLight = new ReactiveProperty<bool>();
+        private ReactiveProperty<bool> _EnableLightColorEstimator = new ReactiveProperty<bool>();
         private ReactiveProperty<float> _DirectionalLightIntensity = new ReactiveProperty<float>();
         private ReactiveProperty<float> _EmissiveFloorIntensity = new ReactiveProperty<float>();
         private ReactiveProperty<float> _EmissiveQuadIntensity = new ReactiveProperty<float>();
@@ -53,6 +56,13 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
             .Subscribe(value => 
             {
                 _EnableDirectionalLight.Value = value;
+            })
+            .AddTo(this);
+
+            _Toggle_EnableLightColorEstimator.OnValueChangedAsObservable()
+            .Subscribe(value => 
+            {
+                _EnableLightColorEstimator.Value = value;
             })
             .AddTo(this);
 

@@ -10,6 +10,8 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
 
         void Awake()
         {
+            _LightingManager.Initialze();
+
             _LightingView.EnableEnvironmentLight
             .Subscribe(value => 
             {
@@ -21,6 +23,13 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
             .Subscribe(value => 
             {
                 _LightingManager.SetEnableDirectionalLight(value);
+            })
+            .AddTo(this);
+
+            _LightingView.EnableLightColorEstimator
+            .Subscribe(value => 
+            {
+                _LightingManager.SetEnableLightColorEstimator(value);
             })
             .AddTo(this);
 
