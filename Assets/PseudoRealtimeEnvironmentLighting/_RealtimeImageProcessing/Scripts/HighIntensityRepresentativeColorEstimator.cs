@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UniRx;
 
-namespace PseudoRealtimeEnvironmentLighting.Experimental
+namespace PseudoRealtimeEnvironmentLighting
 {
     public class HighIntensityRepresentativeColorEstimator : MonoBehaviour
     {

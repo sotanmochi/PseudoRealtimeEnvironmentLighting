@@ -10,6 +10,8 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
 
         void Awake()
         {
+            _LightingManager.Initialze();
+
             _LightingView.EnableEnvironmentLight
             .Subscribe(value => 
             {
