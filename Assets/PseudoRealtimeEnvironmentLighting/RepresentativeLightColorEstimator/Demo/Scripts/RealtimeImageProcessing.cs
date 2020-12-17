@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UniRx;
 
-namespace PseudoRealtimeEnvironmentLighting.Experimental
+namespace RepresentativeColorEstimation.Examples
 {
     public class RealtimeImageProcessing : MonoBehaviour
     {
