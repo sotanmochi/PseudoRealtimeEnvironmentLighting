@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UniRx;
+using RepresentativeColorEstimation;
 
 namespace PseudoRealtimeEnvironmentLighting.Demo
 {
