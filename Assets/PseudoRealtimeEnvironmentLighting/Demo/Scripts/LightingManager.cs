@@ -53,22 +53,34 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
 
         public void SetEnableEnvironmentLight(bool value)
         {
-            _RealtimeEnvironmentLight.EnableEnvironmetLighting = value;
+            if (_RealtimeEnvironmentLight != null)
+            {
+                _RealtimeEnvironmentLight.EnableEnvironmetLighting = value;
+            }
         }
 
         public void SetEnvironmentLightMaxIntensity(float maxIntensity)
         {
-            _RealtimeEnvironmentLight.MaxIntensity = maxIntensity;
+            if (_RealtimeEnvironmentLight != null)
+            {
+                _RealtimeEnvironmentLight.MaxIntensity = maxIntensity;
+            }
         }
 
         public void SetEnvironmentLightMetallic(float value)
         {
-            _RealtimeEnvironmentLight.Metallic = value;
+            if (_RealtimeEnvironmentLight != null)
+            {
+                _RealtimeEnvironmentLight.Metallic = value;
+            }
         }
 
         public void SetEnvironmentLightSmoothness(float value)
         {
-            _RealtimeEnvironmentLight.Smoothness = value;
+            if (_RealtimeEnvironmentLight != null)
+            {
+                _RealtimeEnvironmentLight.Smoothness = value;
+            }
         }
 
         public void SetEmissiveFloorIntensity(float value)
