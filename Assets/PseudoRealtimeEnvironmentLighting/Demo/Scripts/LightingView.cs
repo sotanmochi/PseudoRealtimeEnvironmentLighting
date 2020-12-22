@@ -45,12 +45,15 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
 
         void Awake()
         {
-            _Toggle_EnableEnvironmentLight.OnValueChangedAsObservable()
-            .Subscribe(value => 
+            if (_Toggle_EnableEnvironmentLight != null)
             {
-                _EnableEnvironmentLight.Value = value;
-            })
-            .AddTo(this);
+                _Toggle_EnableEnvironmentLight.OnValueChangedAsObservable()
+                .Subscribe(value => 
+                {
+                    _EnableEnvironmentLight.Value = value;
+                })
+                .AddTo(this);
+            }
 
             _Toggle_EnableDirectionalLight.OnValueChangedAsObservable()
             .Subscribe(value => 
@@ -66,29 +69,38 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
             })
             .AddTo(this);
 
-            _Slider_EnvironmentLightMaxIntensity.OnValueChangedAsObservable()
-            .Subscribe(value => 
+            if (_Slider_EnvironmentLightMaxIntensity)
             {
-                _EnvironmentLightMaxIntensity.Value = value;
-                _Text_EnvironmentLightMaxIntensity.text = "MaxIntensity : " + value.ToString("F2");
-            })
-            .AddTo(this);
+                _Slider_EnvironmentLightMaxIntensity.OnValueChangedAsObservable()
+                .Subscribe(value => 
+                {
+                    _EnvironmentLightMaxIntensity.Value = value;
+                    _Text_EnvironmentLightMaxIntensity.text = "MaxIntensity : " + value.ToString("F2");
+                })
+                .AddTo(this);
+            }
 
-            _Slider_Metallic.OnValueChangedAsObservable()
-            .Subscribe(value => 
+            if (_Slider_Metallic)
             {
-                _Metallic.Value = value;
-                _Text_Metallic.text = "Metallic : " + value.ToString("F2");
-            })
-            .AddTo(this);
+                _Slider_Metallic.OnValueChangedAsObservable()
+                .Subscribe(value => 
+                {
+                    _Metallic.Value = value;
+                    _Text_Metallic.text = "Metallic : " + value.ToString("F2");
+                })
+                .AddTo(this);
+            }
 
-            _Slider_Smoothness.OnValueChangedAsObservable()
-            .Subscribe(value => 
+            if (_Slider_Smoothness)
             {
-                _Smoothness.Value = value;
-                _Text_Smoothness.text = "Smoothness : " + value.ToString("F2");
-            })
-            .AddTo(this);
+                _Slider_Smoothness.OnValueChangedAsObservable()
+                .Subscribe(value => 
+                {
+                    _Smoothness.Value = value;
+                    _Text_Smoothness.text = "Smoothness : " + value.ToString("F2");
+                })
+                .AddTo(this);
+            }
 
             _Slider_DirectionalLightIntensity.OnValueChangedAsObservable()
             .Subscribe(value => 
@@ -98,21 +110,27 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
             })
             .AddTo(this);
 
-            _Slider_EmissiveFloorIntensity.OnValueChangedAsObservable()
-            .Subscribe(value => 
+            if (_Slider_EmissiveFloorIntensity != null)
             {
-                _EmissiveFloorIntensity.Value = value;
-                _Text_EmissiveFloorIntensity.text = "Floor Intensity : " + value.ToString("F2");
-            })
-            .AddTo(this);
+                _Slider_EmissiveFloorIntensity.OnValueChangedAsObservable()
+                .Subscribe(value => 
+                {
+                    _EmissiveFloorIntensity.Value = value;
+                    _Text_EmissiveFloorIntensity.text = "Floor Intensity : " + value.ToString("F2");
+                })
+                .AddTo(this);
+            }
 
-            _Slider_EmissiveQuadIntensity.OnValueChangedAsObservable()
-            .Subscribe(value => 
+            if (_Slider_EmissiveQuadIntensity != null)
             {
-                _EmissiveQuadIntensity.Value = value;
-                _Text_EmissiveQuadIntensity.text = "Back Intensity : " + value.ToString("F2");
-            })
-            .AddTo(this);
+                _Slider_EmissiveQuadIntensity.OnValueChangedAsObservable()
+                .Subscribe(value => 
+                {
+                    _EmissiveQuadIntensity.Value = value;
+                    _Text_EmissiveQuadIntensity.text = "Back Intensity : " + value.ToString("F2");
+                })
+                .AddTo(this);
+            }
         }
 
         public void SetEnableEnvironmentLight(bool value)

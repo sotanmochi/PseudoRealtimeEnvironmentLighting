@@ -5,7 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/PseudoRealtimeEnvironmentLighting/Demo/Scenes/Demo_UTS2.unity
     guid: a9b6b46fdffaa7d4dac4dd979e6c4dd8
+  - enabled: 1
+    path: Assets/PseudoRealtimeEnvironmentLighting/Demo/Scenes/Demo_VRM.unity
+    guid: a568026898d17dc40b22723028f5e516
+  - enabled: 0
+    path: Assets/PseudoRealtimeEnvironmentLighting/RepresentativeColorEstimation/Demo/Scenes/RealtimeImageProcessing.unity
+    guid: 3e3c5681969005c49a886b9a4b93377c
   m_configObjects: {}
