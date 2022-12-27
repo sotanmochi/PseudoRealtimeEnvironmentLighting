@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.unity.universaltoonshader.urp": "https://github.com/unity3d-jp/UnityChanToonShaderVer2_Project.git#urp-2.5.1",
     "com.vrmc.vrmshaders": "https://github.com/vrm-c/UniVRM.git?path=/Assets/VRMShaders#v0.108.0",
     "com.vrmc.gltf": "https://github.com/vrm-c/UniVRM.git?path=/Assets/UniGLTF#v0.108.0",
     "com.vrmc.vrm": "https://github.com/vrm-c/UniVRM.git?path=/Assets/VRM10#v0.108.0",

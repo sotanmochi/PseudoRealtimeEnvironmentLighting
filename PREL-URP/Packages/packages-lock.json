@@ -153,6 +153,15 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
+    "com.unity.universaltoonshader.urp": {
+      "version": "https://github.com/unity3d-jp/UnityChanToonShaderVer2_Project.git#urp-2.5.1",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.render-pipelines.universal": "7.3.1"
+      },
+      "hash": "9163b88198bbfa81c1c33c380cb6afa066941f45"
+    },
     "com.unity.visualscripting": {
       "version": "1.7.8",
       "depth": 0,
