@@ -1,4 +1,4 @@
-# Pseudo Real-time Environment Lighting
+# Pseudo Real-time Environment Lighting (PREL)
 
 ## リアルタイム画像処理を用いた代表色の推定 (Representative Color Estimation using Real-time Image Processing)
 
