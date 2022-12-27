@@ -1,0 +1,246 @@
+﻿// Licensed under the MIT License. Copyright (c) 2020 Soichiro Sugimoto.
+
+#pragma kernel Grayscale
+#pragma kernel InitializeHistogram
+#pragma kernel Histogram
+#pragma kernel CopyHistogramBuffer
+#pragma kernel Reduction
+#pragma kernel VisualizeHistogram
+#pragma kernel CutLowIntensity
+#pragma kernel CalculateSeparation
+
+#define THREADS_X 16
+#define THREADS_Y 16
+#define THREADS_HISTOGRAM 256
+
+Texture2D<float4> SrcTex;
+RWTexture2D<float4> DstTex;
+
+RWStructuredBuffer<uint> HistogramBuffer;
+
+cbuffer params
+{
+    int Width;
+    int Height;
+}
+
+bool IsValidPixelPosition(uint2 p, uint width, uint height)
+{
+    bool isValid = (p.x >= 0 && p.x < width  && p.y >= 0 && p.y < height);
+    return isValid;
+}
+
+[numthreads(THREADS_X, THREADS_Y, 1)]
+void Grayscale (uint2 id : SV_DispatchThreadID)
+{
+    if (!IsValidPixelPosition(id, Width, Height))
+    {
+        return;
+    }
+
+    float3 rgb = SrcTex[id];
+    float Y = dot(rgb, float3(0.2126, 0.7152, 0.0722)); // Linear RGB
+
+    DstTex[id] = float4(Y, Y, Y, 1.0);
+}
+
+[numthreads(THREADS_HISTOGRAM, 1, 1)]
+void InitializeHistogram (uint id : SV_DispatchThreadID)
+{
+    HistogramBuffer[id] = 0;
+}
+
+[numthreads(THREADS_X, THREADS_Y, 1)]
+void Histogram (uint2 id : SV_DispatchThreadID)
+{
+    if (!IsValidPixelPosition(id, Width, Height))
+    {
+        return;
+    }
+
+    float3 rgb = SrcTex[id];
+    float Y = dot(rgb, float3(0.2126, 0.7152, 0.0722)); // Linear RGB
+
+    uint bin = (uint)clamp((Y * 255.0), 0, 255);
+    InterlockedAdd(HistogramBuffer[bin], 1);
+}
+
+RWStructuredBuffer<double> ReductionInputBuffer;
+RWStructuredBuffer<double> MaxIndexOutput;
+RWStructuredBuffer<double> MaxValueOutput;
+RWStructuredBuffer<double> SumValueOutput;
+RWStructuredBuffer<double> AverageValueOutput;
+
+groupshared double GroupMaxIndex[THREADS_HISTOGRAM];
+groupshared double GroupMax[THREADS_HISTOGRAM];
+groupshared double GroupSum[THREADS_HISTOGRAM];
+groupshared double GroupAverage[THREADS_HISTOGRAM];
+
+[numthreads(THREADS_HISTOGRAM, 1, 1)]
+void CopyHistogramBuffer (uint id : SV_DispatchThreadID)
+{
+    ReductionInputBuffer[id] = HistogramBuffer[id];
+}
+
+[numthreads(THREADS_HISTOGRAM, 1, 1)]
+void Reduction (uint id : SV_DispatchThreadID, uint gi : SV_GroupIndex)
+{
+    // Each thread loads one element from global to shared mem
+    double value = ReductionInputBuffer[id];
+    GroupMax[gi] = value;
+    GroupMaxIndex[gi] = id;
+    GroupSum[gi] = value;
+    GroupAverage[gi] = id * value;
+    GroupMemoryBarrierWithGroupSync();
+
+    // Do reduction in shared mem
+    for (uint s = THREADS_HISTOGRAM / 2; s > 0; s /= 2)
+    {
+        if (gi < s)
+        {
+            double a = GroupMax[gi];
+            double b = GroupMax[gi + s];
+            GroupMax[gi] = (b > a) ? b : a;
+            GroupMaxIndex[gi] = (b > a) ? GroupMaxIndex[gi + s] : GroupMaxIndex[gi];
+
+            GroupSum[gi] += GroupSum[gi + s];
+            GroupAverage[gi] += GroupAverage[gi + s];
+        }
+        GroupMemoryBarrierWithGroupSync();
+    }
+
+    if (gi == 0)
+    {
+        MaxIndexOutput[0] = GroupMaxIndex[0];
+        MaxValueOutput[0] = GroupMax[0];
+        SumValueOutput[0] = GroupSum[0];
+        AverageValueOutput[0] = GroupAverage[0] / GroupSum[0];
+    }
+}
+
+RWStructuredBuffer<double> HistogramMaxInputBuffer;
+RWStructuredBuffer<double> ThresholdBuffer;
+
+[numthreads(THREADS_X, THREADS_Y, 1)]
+void VisualizeHistogram (uint2 id : SV_DispatchThreadID)
+{
+    uint bin = (uint)clamp((float) id.x / Width * 256.0, 0, 255);
+    uint normalizedFreq = (uint)((float) HistogramBuffer[bin] / HistogramMaxInputBuffer[0] * Height);
+
+    if (id.y < normalizedFreq)
+    {
+        DstTex[id] = float4(1, 1, 1, 1);
+    }
+    else
+    {
+        DstTex[id] = float4(0, 0, 0, 1);
+    }
+
+    if (bin == (uint)ThresholdBuffer[0])
+    {
+        DstTex[id] = float4(1, 0, 0, 1);
+    }
+}
+
+RWStructuredBuffer<double> CutLowIntensityBuffer;
+
+[numthreads(THREADS_X, THREADS_Y, 1)]
+void CutLowIntensity (uint2 id : SV_DispatchThreadID)
+{
+    if (!IsValidPixelPosition(id, Width, Height))
+    {
+        return;
+    }
+
+    float3 rgb = SrcTex[id];
+    float Y = dot(rgb, float3(0.2126, 0.7152, 0.0722)); // Linear RGB
+
+    if (Y > (CutLowIntensityBuffer[0] / 255.0))
+    {
+        DstTex[id] = float4(rgb.r, rgb.g, rgb.b, 1);
+    }
+    else
+    {
+        DstTex[id] = float4(0, 0, 0, 1);
+    }
+}
+
+RWStructuredBuffer<double> SeparationBuffer;
+RWStructuredBuffer<double> HistogramAverageBuffer;
+
+////////////////////////////////////////////////
+// Otsu's method to find the optimal threshold
+////////////////////////////////////////////////
+[numthreads(THREADS_HISTOGRAM, 1, 1)]
+void CalculateSeparation (uint id : SV_DispatchThreadID)
+{
+    uint threshold = id;
+    double m0 = HistogramAverageBuffer[0];
+
+    // Class 1
+    int n1 = 0; // Pixel count
+    double m1 = 0; // Mean
+    for (int p = 0; p < threshold; p++)
+    {
+        n1 += HistogramBuffer[p];
+        m1 += p * HistogramBuffer[p];
+    }
+    if (n1 == 0)
+    {
+        m1 = m0;
+    }
+    else
+    {
+        m1 = m1 / n1;
+    }
+
+    double v1 = 0; // Variance
+    for (int p = 0; p < threshold; p++)
+    {
+        v1 += (p - m1) * (p - m1) * HistogramBuffer[p];
+    }
+    if (n1 == 0)
+    {
+        v1 = 0.0;
+    }
+    else
+    {
+        v1 = v1 / n1;
+    }
+
+    // Class 2
+    int n2 = 0; // Pixel count
+    double m2 = 0; // Mean
+    for (int q = threshold; q < THREADS_HISTOGRAM; q++)
+    {
+        n2 += HistogramBuffer[q];
+        m2 += q * HistogramBuffer[q];
+    }
+    if (n2 == 0)
+    {
+        m2 = m0;
+    }
+    else
+    {
+        m2 = m2 / n2;
+    }
+
+    double v2 = 0; // Variance
+    for (int q = threshold; q < THREADS_HISTOGRAM; q++)
+    {
+        v2 += (q - m2) * (q - m2) * HistogramBuffer[q];
+    }
+    if (n2 == 0)
+    {
+        v2 = 0.0;
+    }
+    else
+    {
+        v2 = v2 / n2;
+    }
+
+    double var_in = (n1*v1 + n2*v2) / (n1 + n2);
+    double var_bw = (n1*(m1 - m0)*(m1 - m0) + n2*(m2 - m0)*(m2 - m0)) / (n1 + n2); 
+
+    SeparationBuffer[threshold] = var_bw / var_in;
+}
