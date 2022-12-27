@@ -4,9 +4,9 @@
 
 [Watch on Youtube](https://youtu.be/gAFJLB70v-E)
 
-<img src="./Assets/PseudoRealtimeEnvironmentLighting/RepresentativeColorEstimation/Images/RepresentativeLightColorEstimationDemo.jpg" width="50%">
+<img src="./Built-in/Assets/PseudoRealtimeEnvironmentLighting/RepresentativeColorEstimation/Images/RepresentativeLightColorEstimationDemo.jpg" width="50%">
 
-<img src="./Assets/PseudoRealtimeEnvironmentLighting/RepresentativeColorEstimation/Images/RepresentativeColorEstimation.jpg" width="50%">
+<img src="./Built-in/Assets/PseudoRealtimeEnvironmentLighting/RepresentativeColorEstimation/Images/RepresentativeColorEstimation.jpg" width="50%">
 
 ## MatCapを用いた疑似リアルタイム環境ライティング (Pseudo Real-time Environment Lighting using MatCap)
 - No images
