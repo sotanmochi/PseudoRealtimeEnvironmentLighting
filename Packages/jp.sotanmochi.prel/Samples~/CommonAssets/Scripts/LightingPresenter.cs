@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UniRx;
 
-namespace PseudoRealtimeEnvironmentLighting.Demo
+namespace Prel.Samples
 {
     public class LightingPresenter : MonoBehaviour
     {

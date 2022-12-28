@@ -11,6 +11,10 @@
             "path": "Samples~/TestData"
         },
         {
+            "displayName": "CommonAssets",
+            "path": "Samples~/CommonAssets"
+        },
+        {
             "displayName": "RepresentativeColor",
             "path": "Samples~/RepresentativeColor/RealtimeImageProcessing"
         }

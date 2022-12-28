@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UniRx;
-using RepresentativeColorEstimation;
+using Prel.RepresentativeColor;
+using Prel.MaterialCapture;
 
-namespace PseudoRealtimeEnvironmentLighting.Demo
+namespace Prel.Samples
 {
     public class LightingManager : MonoBehaviour
     {
@@ -21,8 +22,7 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
         {
             _LightColorEstimator.Initialize(_LightColorEstimationSource);
 
-            _LightColorEstimator.AverageColor
-            .Subscribe(color => 
+            _LightColorEstimator.OnUpdate += (color) =>
             {
                 if (EnableLightColorEstimator)
                 {
@@ -32,7 +32,7 @@ namespace PseudoRealtimeEnvironmentLighting.Demo
                 {
                     _DirectionalLight.color = Color.white;
                 }
-            });
+            };
         }
 
         public void SetEnableLightColorEstimator(bool value)

@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using UniRx;
 
-namespace PseudoRealtimeEnvironmentLighting.Demo
+namespace Prel.Samples
 {
     public class LightingView : MonoBehaviour
     {

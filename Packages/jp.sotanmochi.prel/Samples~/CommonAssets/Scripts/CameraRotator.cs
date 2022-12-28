@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PseudoRealtimeEnvironmentLighting.Demo
+namespace Prel.Samples
 {
     public class CameraRotator : MonoBehaviour
     {
