@@ -54,7 +54,8 @@ namespace Prel.MaterialCapture
         {
             _MatCapRenderingSphereMaterial.SetColor("_Color", AlbedoColor);
             _MatCapRenderingSphereMaterial.SetFloat("_Metallic", Metallic);
-            _MatCapRenderingSphereMaterial.SetFloat("_Glossiness", Smoothness);
+            _MatCapRenderingSphereMaterial.SetFloat("_Smoothness", Smoothness); // URP
+            _MatCapRenderingSphereMaterial.SetFloat("_Glossiness", Smoothness); // Built-in
         }
 
         void OnValidate()
