@@ -1,0 +1,43 @@
+#pragma kernel ResizeBilinear
+#pragma kernel RGBToGrayscale
+
+#define THREADS_X 16
+#define THREADS_Y 16
+
+Texture2D<float4> SrcTex;
+RWTexture2D<float4> DstTex;
+
+SamplerState LinearClamp;
+
+cbuffer params
+{
+    int SrcWidth;
+    int SrcHeight;
+    int DstWidth;
+    int DstHeight;
+};
+
+bool IsValidPixelPosition(uint2 p, uint width, uint height)
+{
+    return (p.x >= 0 && p.x < width  && p.y >= 0 && p.y < height);
+}
+
+[numthreads(THREADS_X, THREADS_X, 1)]
+void ResizeBilinear(uint3 id : SV_DispatchThreadID)
+{
+    if (!IsValidPixelPosition(id.xy, DstWidth, DstHeight)) { return; }
+
+    float2 uv = float2((id.x + 0.5) / DstWidth, (id.y + 0.5) / DstHeight);
+    DstTex[id.xy] = SrcTex.SampleLevel(LinearClamp, uv, 0);
+}
+
+[numthreads(THREADS_X, THREADS_Y, 1)]
+void RGBToGrayscale (uint2 id : SV_DispatchThreadID)
+{
+    if (!IsValidPixelPosition(id, DstWidth, DstHeight)) { return; }
+    
+    float3 rgb = SrcTex[id];
+    float Y = dot(rgb, float3(0.2126, 0.7152, 0.0722)); // Linear RGB
+    
+    DstTex[id] = float4(Y, Y, Y, 1.0);
+}
