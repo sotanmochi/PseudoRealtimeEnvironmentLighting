@@ -1,6 +1,7 @@
 #pragma kernel ClearHistogram
 #pragma kernel CalculateIntensityHistogram
 #pragma kernel VisualizeHistogram
+#pragma kernel CalculateSeparation
 
 #define THREADS_X 16
 #define THREADS_Y 16
@@ -42,6 +43,86 @@ void CalculateIntensityHistogram (uint2 id : SV_DispatchThreadID)
     float max = BIN_COUNT - 1;
     uint bin = (uint)clamp((Y * max), 0, max);
     InterlockedAdd(Histogram[bin], 1);
+}
+
+RWStructuredBuffer<double> HistogramAverage;
+RWStructuredBuffer<double> SeparationBuffer;
+
+/////////////////////////////////////////////////
+// Otsu's method to find the optimal threshold //
+/////////////////////////////////////////////////
+[numthreads(BIN_COUNT, 1, 1)]
+void CalculateSeparation (uint id : SV_DispatchThreadID)
+{
+    uint threshold = id;
+    double m0 = HistogramAverage[0];
+
+    // Class 1
+    int n1 = 0; // Pixel count
+    double m1 = 0; // Mean
+    for (int p = 0; p < threshold; p++)
+    {
+        n1 += Histogram[p];
+        m1 += p * Histogram[p];
+    }
+    if (n1 == 0)
+    {
+        m1 = m0;
+    }
+    else
+    {
+        m1 = m1 / n1;
+    }
+
+    double v1 = 0; // Variance
+    for (int p = 0; p < threshold; p++)
+    {
+        v1 += (p - m1) * (p - m1) * Histogram[p];
+    }
+    if (n1 == 0)
+    {
+        v1 = 0.0;
+    }
+    else
+    {
+        v1 = v1 / n1;
+    }
+
+    // Class 2
+    int n2 = 0; // Pixel count
+    double m2 = 0; // Mean
+    for (int q = threshold; q < BIN_COUNT; q++)
+    {
+        n2 += Histogram[q];
+        m2 += q * Histogram[q];
+    }
+    if (n2 == 0)
+    {
+        m2 = m0;
+    }
+    else
+    {
+        m2 = m2 / n2;
+    }
+
+    double v2 = 0; // Variance
+    for (int q = threshold; q < BIN_COUNT; q++)
+    {
+        v2 += (q - m2) * (q - m2) * Histogram[q];
+    }
+    if (n2 == 0)
+    {
+        v2 = 0.0;
+    }
+    else
+    {
+        v2 = v2 / n2;
+    }
+
+    double var_in = (n1*v1 + n2*v2) / (n1 + n2);
+    double var_bw = (n1*(m1 - m0)*(m1 - m0) + n2*(m2 - m0)*(m2 - m0)) / (n1 + n2); 
+
+    SeparationBuffer[threshold] = var_bw / var_in;
 }
 
 [numthreads(THREADS_X, THREADS_Y, 1)]

@@ -1,5 +1,6 @@
 #pragma kernel ResizeBilinear
 #pragma kernel RGBToGrayscale
+#pragma kernel CutLowIntensity
 
 #define THREADS_X 16
 #define THREADS_Y 16
@@ -8,6 +9,8 @@ Texture2D<float4> SrcTex;
 RWTexture2D<float4> DstTex;
 
 SamplerState LinearClamp;
+
+RWStructuredBuffer<double> ThresholdValue;
 
 cbuffer params
 {
@@ -40,4 +43,22 @@ void RGBToGrayscale (uint2 id : SV_DispatchThreadID)
     float Y = dot(rgb, float3(0.2126, 0.7152, 0.0722)); // Linear RGB
     
     DstTex[id] = float4(Y, Y, Y, 1.0);
+}
+
+[numthreads(THREADS_X, THREADS_Y, 1)]
+void CutLowIntensity (uint2 id : SV_DispatchThreadID)
+{
+    if (!IsValidPixelPosition(id, DstWidth, DstHeight)) { return; }
+
+    float3 rgb = SrcTex[id];
+    float Y = dot(rgb, float3(0.2126, 0.7152, 0.0722)); // Linear RGB to Grayscale
+
+    if (Y > (ThresholdValue[0] / 255.0))
+    {
+        DstTex[id] = float4(rgb.r, rgb.g, rgb.b, 1);
+    }
+    else
+    {
+        DstTex[id] = float4(0, 0, 0, 1);
+    }
 }

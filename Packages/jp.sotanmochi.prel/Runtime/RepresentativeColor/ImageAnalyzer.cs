@@ -6,16 +6,19 @@ namespace Prel.RepresentativeColor
     {
         public static readonly string KernelName_ClearHistogram = "ClearHistogram";
         public static readonly string KernelName_CalculateIntensityHistogram = "CalculateIntensityHistogram";
+        public static readonly string KernelName_CalculateSeparation = "CalculateSeparation";
         public static readonly string KernelName_VisualizeHistogram = "VisualizeHistogram";
         
         protected readonly ComputeShader _computeShader;
         
         protected readonly int _kernelId_ClearHistogram;
         protected readonly int _kernelId_CalculateIntensityHistogram;
+        protected readonly int _kernelId_CalculateSeparation;
         protected readonly int _kernelId_VisualizeHistogram;
         
         protected readonly Vector2Int _threadGroupSize_ClearHistogram;
         protected readonly Vector2Int _threadGroupSize_CalculateIntensityHistogram;
+        protected readonly Vector2Int _threadGroupSize_CalculateSeparation;
         protected readonly Vector2Int _threadGroupSize_VisualizeHistogram;
         
         public ImageAnalyzer(ComputeShader computeShader)
@@ -24,6 +27,7 @@ namespace Prel.RepresentativeColor
             
             _kernelId_ClearHistogram = _computeShader.FindKernel(KernelName_ClearHistogram);
             _kernelId_CalculateIntensityHistogram = _computeShader.FindKernel(KernelName_CalculateIntensityHistogram);
+            _kernelId_CalculateSeparation = _computeShader.FindKernel(KernelName_CalculateSeparation);
             _kernelId_VisualizeHistogram = _computeShader.FindKernel(KernelName_VisualizeHistogram);
             
             uint threadGroupsX, threadGroupsY, threadGroupsZ;
@@ -33,7 +37,10 @@ namespace Prel.RepresentativeColor
             
             _computeShader.GetKernelThreadGroupSizes(_kernelId_CalculateIntensityHistogram, out threadGroupsX, out threadGroupsY, out threadGroupsZ);
             _threadGroupSize_CalculateIntensityHistogram = new Vector2Int((int)threadGroupsX, (int)threadGroupsY);
-            
+
+            _computeShader.GetKernelThreadGroupSizes(_kernelId_CalculateSeparation, out threadGroupsX, out threadGroupsY, out threadGroupsZ);
+            _threadGroupSize_CalculateSeparation = new Vector2Int((int)threadGroupsX, (int)threadGroupsY);
+
             _computeShader.GetKernelThreadGroupSizes(_kernelId_VisualizeHistogram, out threadGroupsX, out threadGroupsY, out threadGroupsZ);
             _threadGroupSize_VisualizeHistogram = new Vector2Int((int)threadGroupsX, (int)threadGroupsY);
         }
@@ -56,6 +63,14 @@ namespace Prel.RepresentativeColor
             var threadGroupsX = Mathf.CeilToInt((float)srcTex.width / _threadGroupSize_CalculateIntensityHistogram.x);
             var threadGroupsY = Mathf.CeilToInt((float)srcTex.height / _threadGroupSize_CalculateIntensityHistogram.y);
             _computeShader.Dispatch(_kernelId_CalculateIntensityHistogram, threadGroupsX, threadGroupsY, 1);
+        }
+
+        public void CalculateSeparation(ComputeBuffer histogramBuffer, ComputeBuffer histogramAverageBuffer, ComputeBuffer separationBuffer)
+        {
+            _computeShader.SetBuffer(_kernelId_CalculateSeparation, "Histogram", histogramBuffer);
+            _computeShader.SetBuffer(_kernelId_CalculateSeparation, "HistogramAverage", histogramAverageBuffer);
+            _computeShader.SetBuffer(_kernelId_CalculateSeparation, "SeparationBuffer", separationBuffer);
+            _computeShader.Dispatch(_kernelId_CalculateSeparation, 1, 1, 1);
         }
 
         public void VisualizeHistogram(ComputeBuffer histogramBuffer, ComputeBuffer maxFrequencyBuffer, ComputeBuffer thresholdBuffer, Texture dstTex)

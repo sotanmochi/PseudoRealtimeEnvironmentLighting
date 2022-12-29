@@ -6,14 +6,17 @@ namespace Prel.RepresentativeColor
     {
         public static readonly string KernelName_ResizeBilinear = "ResizeBilinear";
         public static readonly string KernelName_RGBToGrayscale = "RGBToGrayscale";
+        public static readonly string KernelName_CutLowIntensity = "CutLowIntensity";
         
         protected readonly ComputeShader _computeShader;
         
         protected readonly int _kernelId_ResizeBilinear;
         protected readonly int _kernelId_RGBToGrayscale;
+        protected readonly int _kernelId_CutLowIntensity;
         
         protected readonly Vector2Int _threadGroupSize_ResizeBilinear;
         protected readonly Vector2Int _threadGroupSize_RGBToGrayscale;
+        protected readonly Vector2Int _threadGroupSize_CutLowIntensity;
         
         public ImageProcessor(ComputeShader computeShader)
         {
@@ -21,6 +24,7 @@ namespace Prel.RepresentativeColor
             
             _kernelId_ResizeBilinear = _computeShader.FindKernel(KernelName_ResizeBilinear);
             _kernelId_RGBToGrayscale = _computeShader.FindKernel(KernelName_RGBToGrayscale);
+            _kernelId_CutLowIntensity = _computeShader.FindKernel(KernelName_CutLowIntensity);
             
             uint threadGroupsX, threadGroupsY, threadGroupsZ;
             
@@ -29,6 +33,9 @@ namespace Prel.RepresentativeColor
             
             _computeShader.GetKernelThreadGroupSizes(_kernelId_RGBToGrayscale, out threadGroupsX, out threadGroupsY, out threadGroupsZ);
             _threadGroupSize_RGBToGrayscale = new Vector2Int((int)threadGroupsX, (int)threadGroupsY);
+            
+            _computeShader.GetKernelThreadGroupSizes(_kernelId_CutLowIntensity, out threadGroupsX, out threadGroupsY, out threadGroupsZ);
+            _threadGroupSize_CutLowIntensity = new Vector2Int((int)threadGroupsX, (int)threadGroupsY);
         }
         
         public RenderTexture CreateRenderTexture(int width, int height)
@@ -55,8 +62,8 @@ namespace Prel.RepresentativeColor
         
         public void RGBToGrayscale(Texture srcTex, RenderTexture dstTex)
         {
-            _computeShader.SetInt("SrcWidth", srcTex.width);
-            _computeShader.SetInt("SrcHeight", srcTex.height);
+            // _computeShader.SetInt("SrcWidth", srcTex.width);
+            // _computeShader.SetInt("SrcHeight", srcTex.height);
             _computeShader.SetInt("DstWidth", dstTex.width);
             _computeShader.SetInt("DstHeight", dstTex.height);
             _computeShader.SetTexture(_kernelId_RGBToGrayscale, "SrcTex", srcTex);
@@ -65,6 +72,21 @@ namespace Prel.RepresentativeColor
             var threadGroupsX = Mathf.CeilToInt((float)srcTex.width / _threadGroupSize_RGBToGrayscale.x);
             var threadGroupsY = Mathf.CeilToInt((float)srcTex.height / _threadGroupSize_RGBToGrayscale.y);
             _computeShader.Dispatch(_kernelId_RGBToGrayscale, threadGroupsX, threadGroupsY, 1);
+        }
+
+        public void CutLowIntensity(Texture srcTex, RenderTexture dstTex, ComputeBuffer thresholdValueBuffer)
+        {
+            // _computeShader.SetInt("SrcWidth", srcTex.width);
+            // _computeShader.SetInt("SrcHeight", srcTex.height);
+            _computeShader.SetInt("DstWidth", dstTex.width);
+            _computeShader.SetInt("DstHeight", dstTex.height);
+            _computeShader.SetTexture(_kernelId_CutLowIntensity, "SrcTex", srcTex);
+            _computeShader.SetTexture(_kernelId_CutLowIntensity, "DstTex", dstTex);
+            _computeShader.SetBuffer(_kernelId_CutLowIntensity, "ThresholdValue", thresholdValueBuffer);
+
+            var threadGroupsX = Mathf.CeilToInt((float)srcTex.width / _threadGroupSize_CutLowIntensity.x);
+            var threadGroupsY = Mathf.CeilToInt((float)srcTex.height / _threadGroupSize_CutLowIntensity.y);
+            _computeShader.Dispatch(_kernelId_CutLowIntensity, threadGroupsX, threadGroupsY, 1);
         }
     }
 }
