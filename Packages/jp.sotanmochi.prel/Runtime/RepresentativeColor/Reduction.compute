@@ -1,0 +1,60 @@
+#pragma kernel Reduce
+#pragma kernel CopyBuffer
+
+#define THREADS_REDUCTION 256
+
+RWStructuredBuffer<double> ReductionInput;
+RWStructuredBuffer<double> MaxIndexOutput;
+RWStructuredBuffer<double> MaxValueOutput;
+RWStructuredBuffer<double> SumValueOutput;
+RWStructuredBuffer<double> AverageValueOutput;
+groupshared double GroupMaxIndex[THREADS_REDUCTION];
+groupshared double GroupMax[THREADS_REDUCTION];
+groupshared double GroupSum[THREADS_REDUCTION];
+groupshared double GroupAverage[THREADS_REDUCTION];
+
+RWStructuredBuffer<uint> CopySrcBuffer;
+RWStructuredBuffer<double> CopyDstBuffer;
+
+[numthreads(THREADS_REDUCTION, 1, 1)]
+void Reduce (uint id : SV_DispatchThreadID, uint gi : SV_GroupIndex)
+{
+    // Each thread loads one element from global to shared mem
+    double value = ReductionInput[id];
+    GroupMaxIndex[gi] = id;
+    GroupMax[gi] = value;
+    GroupSum[gi] = value;
+    GroupAverage[gi] = id * value;
+    GroupMemoryBarrierWithGroupSync();
+
+    // Do reduction in shared mem
+    for (uint s = THREADS_REDUCTION / 2; s > 0; s /= 2)
+    {
+        if (gi < s)
+        {
+            double a = GroupMax[gi];
+            double b = GroupMax[gi + s];
+
+            GroupMax[gi] = (b > a) ? b : a;
+            GroupMaxIndex[gi] = (b > a) ? GroupMaxIndex[gi + s] : GroupMaxIndex[gi];
+
+            GroupSum[gi] += GroupSum[gi + s];
+            GroupAverage[gi] += GroupAverage[gi + s];
+        }
+        GroupMemoryBarrierWithGroupSync();
+    }
+
+    if (gi == 0)
+    {
+        MaxIndexOutput[0]     = GroupMaxIndex[0];
+        MaxValueOutput[0]     = GroupMax[0];
+        SumValueOutput[0]     = GroupSum[0];
+        AverageValueOutput[0] = GroupAverage[0] / GroupSum[0];
+    }
+}
+
+[numthreads(THREADS_REDUCTION, 1, 1)]
+void CopyBuffer (uint id : SV_DispatchThreadID)
+{
+    CopyDstBuffer[id] = CopySrcBuffer[id];
+}
